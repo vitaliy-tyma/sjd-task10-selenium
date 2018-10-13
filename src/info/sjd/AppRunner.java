@@ -4,8 +4,6 @@ import java.util.logging.Logger;
 import info.sjd.model.Account;
 import info.sjd.service.Service;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriver;;
-import org.openqa.selenium.chrome.*;
 
 public class AppRunner {
 

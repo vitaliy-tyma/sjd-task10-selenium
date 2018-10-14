@@ -21,60 +21,58 @@ public class Service {
 		ChromeOptions options = new ChromeOptions();
 		options.addArguments("--start-maximized");
 		WebDriver driver = new ChromeDriver(options);
-		driver.manage().timeouts().pageLoadTimeout(45, TimeUnit.SECONDS);
-		driver.manage().timeouts().setScriptTimeout(45, TimeUnit.SECONDS);
+		driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
+		driver.manage().timeouts().setScriptTimeout(60, TimeUnit.SECONDS);
 		Timer.delay(3);
+
 		return driver;
 	}
 
 	public static WebDriver registerAccount(WebDriver driver, Account account) {
 
 		driver.get(URL);
-		Timer.delay(6);
 
+		Timer.randomDelay(6);
 		WebElement registerDivElement = driver.findElement(By.id("nav-flyout-ya-newCust"));
 		WebElement registerLinkElement = registerDivElement.findElement(By.tagName("a"));
 		String registerLink = registerLinkElement.getAttribute("href");
 
 		driver.get(registerLink);
-		Timer.delay(6);
 
+		Timer.randomDelay(6);
 		WebElement inputNameElement = driver.findElement(By.id("ap_customer_name"));
-		inputNameElement.sendKeys(account.getFirst_name() + " " + account.getSecond_name());
-		Timer.delay(6);
-
+		inputNameElement.sendKeys(account.getFirst_name() + " " + account.getLast_name());
+		
+		Timer.randomDelay(6);
 		WebElement inputEmailElement = driver.findElement(By.id("ap_email"));
 		inputEmailElement.sendKeys(account.getEmail());
-		Timer.delay(6);
 
+		Timer.randomDelay(6);
 		WebElement inputPasswordElement = driver.findElement(By.id("ap_password"));
-		inputPasswordElement.sendKeys(account.getPassword());
-		Timer.delay(6);
+		inputPasswordElement.sendKeys(account.getPasswordString());
 
-		WebElement inputCheckElement = driver.findElement(By.id("ap_password_check"));
-		inputCheckElement.sendKeys(account.getPassword());
-		Timer.delay(6);
+		Timer.randomDelay(6);
+		WebElement inputPassCheckElement = driver.findElement(By.id("ap_password_check"));
+		inputPassCheckElement.sendKeys(account.getPasswordString());
 
+		Timer.randomDelay(6);
 		WebElement inputSubmitElement = driver.findElement(By.id("continue"));
-		//inputSubmitElement.submit();
+		/*
+		 * STOP NOW
+		 * 
+		 * inputSubmitElement.submit();
+		 */
 
-		Timer.delay(6);
+		Timer.randomDelay(6);
 		String currentUrl = driver.getCurrentUrl();
 		driver.get(currentUrl);
 
 		if (driver.getPageSource().contains("Hello, ")) {
-
 			return driver;
 		}
 
 		driver.quit();
 		return null;
-	}
-
-	public static WebDriver addGoodToCart(WebDriver driver, String asin) {
-		///////
-
-		return driver;
 	}
 
 }

@@ -15,27 +15,31 @@ public class AppRunner {
 		Logger logger = Logger.getLogger(AppRunner.class.getName());
 		logger.log(Level.INFO, "Start");
 
-		String email = "-Vitaliy.Tima@gmail.com";
+		String email = "Vitaliy.Tima@gmail.com";
 		String first_name = "Vitaliy";
 		String last_name = "Tyma";
-		Account account = new Account(email, Pass.getPassArray(), first_name, last_name);
+
+		String file_name = email + ".txt";
+
+		/**
+		 * Example how to create the new password.
+		 * 
+		 * Pass.saveUserPassToFile(file_name);
+		 */
+
+		char[] pass = Pass.readUserPassFromFile(file_name);
+		
+		Account account = new Account(email, pass, first_name, last_name);
+		
 
 		try {
-//			String proxy_ip = "127.0.0.1";
-//			String proxy_port = "22222";
-//			ChromeOptions option = new ChromeOptions();
-//			option.addArguments("--proxy-server=http://"+proxy_ip+":"+proxy_port);
-//			TO BE CHECKED
-//			option.addArguments("C:\\Users\\profile\\AppData\\Local\\Google\\Chrome\\User Data\\Profile 1");
-//			WebDriver driver = Service.getChromeDriver(option);
-
-			WebDriver driver = Service.getChromeDriver();
-			driver = Service.registerAccount(driver, account);
+			WebDriver web_driver = Service.getChromeDriver();
+			web_driver = Service.registerAccount(web_driver, account);
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, "WebDriver error: " + e.getMessage());
 		}
 
+		Arrays.fill(pass, '\u0000');
 		logger.log(Level.INFO, "Finish");
 	}
-
 }

@@ -1,4 +1,4 @@
-package info.sjd.service;
+package info.sjd.util;
 
 import java.util.Random;
 

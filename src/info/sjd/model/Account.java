@@ -1,7 +1,5 @@
 package info.sjd.model;
 
-import java.util.Arrays;
-
 public class Account {
 
 	private String email;
@@ -29,7 +27,7 @@ public class Account {
 		this.email = email;
 	}
 	
-	/* Altered getter - toString.*/
+	/** Altered getter - char[] to string in one line.*/
 	public String getPasswordString() {
 		return new String(password_chars);
 	}

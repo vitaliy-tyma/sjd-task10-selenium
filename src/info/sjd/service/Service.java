@@ -1,7 +1,12 @@
 package info.sjd.service;
 
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import info.sjd.model.*;
+import info.sjd.pass.Pass;
+import info.sjd.util.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -13,6 +18,7 @@ public class Service {
 	private static final String URL = "https://www.amazon.com";
 	private static String user_dir = System.getProperty("user.dir");
 	private static final String SEP = System.getProperty("file.separator");
+	private static Logger logger = Logger.getLogger(Pass.class.getName());
 
 	public static WebDriver getChromeDriver() {
 
@@ -33,46 +39,46 @@ public class Service {
 		driver.get(URL);
 
 		Timer.randomDelay(6);
-		WebElement registerDivElement = driver.findElement(By.id("nav-flyout-ya-newCust"));
-		WebElement registerLinkElement = registerDivElement.findElement(By.tagName("a"));
-		String registerLink = registerLinkElement.getAttribute("href");
+		WebElement register_div_element = driver.findElement(By.id("nav-flyout-ya-newCust"));
+		WebElement register_url_element = register_div_element.findElement(By.tagName("a"));
+		String register_url = register_url_element.getAttribute("href");
 
-		driver.get(registerLink);
-
-		Timer.randomDelay(6);
-		WebElement inputNameElement = driver.findElement(By.id("ap_customer_name"));
-		inputNameElement.sendKeys(account.getFirst_name() + " " + account.getLast_name());
-		
-		Timer.randomDelay(6);
-		WebElement inputEmailElement = driver.findElement(By.id("ap_email"));
-		inputEmailElement.sendKeys(account.getEmail());
+		driver.get(register_url);
 
 		Timer.randomDelay(6);
-		WebElement inputPasswordElement = driver.findElement(By.id("ap_password"));
-		inputPasswordElement.sendKeys(account.getPasswordString());
+		WebElement input_name_element = driver.findElement(By.id("ap_customer_name"));
+		String ap_customer_name = account.getFirst_name() + " " + account.getLast_name();
+		input_name_element.sendKeys(ap_customer_name);
 
 		Timer.randomDelay(6);
-		WebElement inputPassCheckElement = driver.findElement(By.id("ap_password_check"));
-		inputPassCheckElement.sendKeys(account.getPasswordString());
+		WebElement input_email_element = driver.findElement(By.id("ap_email"));
+		input_email_element.sendKeys(account.getEmail());
 
 		Timer.randomDelay(6);
-		WebElement inputSubmitElement = driver.findElement(By.id("continue"));
-		/*
-		 * STOP NOW
-		 * 
-		 * inputSubmitElement.submit();
-		 */
+		WebElement input_password_element = driver.findElement(By.id("ap_password"));
+		input_password_element.sendKeys(account.getPasswordString());
 
+		Timer.randomDelay(6);
+		WebElement input_pass_check_element = driver.findElement(By.id("ap_password_check"));
+		input_pass_check_element.sendKeys(account.getPasswordString());
+
+		Timer.randomDelay(6);
+		WebElement input_submit_element = driver.findElement(By.id("continue"));
+		input_submit_element.submit();
+
+		/* What is I must verify e-mail after the very first registration. */
 		Timer.randomDelay(6);
 		String currentUrl = driver.getCurrentUrl();
 		driver.get(currentUrl);
 
-		if (driver.getPageSource().contains("Hello, ")) {
-			return driver;
+		boolean signed_in = driver.getPageSource().contains("Hello, " + account.getFirst_name());
+		if (!signed_in) {
+			driver.quit();
+			logger.log(Level.SEVERE, "WebDriver creation error!");
+			return null;
 		}
-
-		driver.quit();
-		return null;
+		logger.log(Level.INFO, "WebDriver has been successfully created.");
+		
+		return driver;
 	}
-
 }

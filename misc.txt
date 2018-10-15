@@ -1,0 +1,57 @@
+//	private static final java.util.Base64.Decoder BASE_64_DECODER= new java.util.Base64.Decoder(false, false);
+//	private static final String ENCODING = "UTF-8";
+
+
+//		ByteArrayOutputStream writer = new ByteArrayOutputStream();
+//		writer.write(new String(pass).getBytes("UTF-8"));
+//		byte[] bytes = writer.toByteArray();
+		
+//		Decoder BASE_64_DECODER = new java.util.Base64.Decoder(false, false);
+		String ENCODING = "UTF-8";
+		CharBuffer char_buffer = CharBuffer.wrap(pass);
+		ByteBuffer byte_buffer = 
+				Charset.forName(ENCODING).encode(char_buffer);
+//		BASE_64_DECODER.decode(byte_buffer);
+
+		
+0		
+		
+		
+		Arrays.fill(char_buffer.array(), '\u0000'); 
+		Arrays.fill(byte_buffer.array(), (byte) 0); 
+		
+++++++++++++++++++++++++++++++++++++++++++++++++
+//		System.out.println("Before ROT-13: " + new String(pass));
+		pass = rot13(pass);
+//		System.out.println("After ROT-13: " + new String(pass));
+
+
+
+		char[] pass = new char[input.length()];
+		input.getChars(0, input.length(), pass, 0);
+
+		
+		
+		//////////////////////////////////////
+		//			String proxy_ip = "127.0.0.1";
+//			String proxy_port = "22222";
+//			ChromeOptions option = new ChromeOptions();
+//			option.addArguments("--proxy-server=http://"+proxy_ip+":"+proxy_port);
+//			TO BE CHECKED - OPT 2
+//			option.addArguments("C:\\Users\\profile\\AppData\\Local\\Google\\Chrome\\User Data\\Profile 1");
+//			WebDriver driver = Service.getChromeDriver(option);
+		
+		
+		
+			/** Get pass from class. Obsolete. */
+	public static char[] getPassArray() {
+		char[] password = new char[password_char.length];
+		password = ROT13.rot13(password_char);
+		return password;
+	}
+		
+		
+			/* Plain text password [to be deleted in production] "passW20!" */
+	private static char[] password_char = { 'c', 'n', 'f', 'f', 'J', '7', '5', '!' };
+	//////////////////////////////////////////////////////////////////////////////////
+		

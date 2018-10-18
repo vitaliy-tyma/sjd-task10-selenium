@@ -15,20 +15,25 @@ import info.sjd.util.ROT13;
 public class Pass {
 	private static Logger logger = Logger.getLogger(Pass.class.getName());
 
-
-	/** To be used one time to save the password. */
+	/** To be used one time to save the password.*/
 	public static boolean saveUserPassToFile(String file_name) {
 
 		Scanner scanner = new Scanner(System.in);
-		boolean debug = Boolean.TRUE;
+
 		String input;
-		if (!debug) {
-			System.out.print("Enter your password: ");
+		System.out.print("Enter your password [0 to 16 chars]: ");
+		input = scanner.nextLine();
+
+		while (input.length() > 16) {
+			System.out.println("Password is too long!");
+			System.out.print("Enter your password [0 to 16 chars]: ");
 			input = scanner.nextLine();
-		} else {
-			input = "passW20!";
 		}
 
+		//IMPORTANT: check user's input!!!
+		
+		scanner.close();
+		
 		char[] pass = input.toCharArray();
 		pass = ROT13.rot13(pass);
 
@@ -47,9 +52,10 @@ public class Pass {
 
 		return Boolean.TRUE;
 	}
-
 	
-	/** To be used one time to save the password. */
+
+
+	/** Read the password. */
 	public static char[] readUserPassFromFile(String file_name) {
 		StringBuilder input = new StringBuilder();
 		try {

@@ -21,25 +21,28 @@ public class AppRunner {
 
 		String file_name = email + ".txt";
 
-		/**
-		 * Example how to create the new password.
-		 * 
-		 * Pass.saveUserPassToFile(file_name);
-		 */
 
-		char[] pass = Pass.readUserPassFromFile(file_name);
+		char[] pass = null;
+		pass = Pass.readUserPassFromFile(file_name);
 		
+		if (pass == null) {
+			Pass.saveUserPassToFile(file_name);
+			pass = Pass.readUserPassFromFile(file_name);
+		}
+		//logger.log(Level.INFO, "Pass: " + new String(pass));
+
 		Account account = new Account(email, pass, first_name, last_name);
 		
 
 		try {
 			WebDriver web_driver = Service.getChromeDriver();
 			web_driver = Service.registerAccount(web_driver, account);
+			Arrays.fill(pass, '\u0000');
+			web_driver.close();
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, "WebDriver error: " + e.getMessage());
 		}
 
-		Arrays.fill(pass, '\u0000');
 		logger.log(Level.INFO, "Finish");
 	}
 }

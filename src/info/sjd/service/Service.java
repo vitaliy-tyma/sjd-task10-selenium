@@ -74,7 +74,7 @@ public class Service {
 		boolean signed_in = driver.getPageSource().contains("Hello, " + account.getFirst_name());
 		if (!signed_in) {
 			driver.quit();
-			logger.log(Level.SEVERE, "WebDriver creation error!");
+			logger.log(Level.SEVERE, "WebDriver creation error (including login)!");
 			return null;
 		}
 		logger.log(Level.INFO, "WebDriver has been successfully created.");
